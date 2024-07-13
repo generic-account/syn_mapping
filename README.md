@@ -28,7 +28,7 @@ My initial thought was to do this recursively - take some word and add all its s
 
 Of course I couldn't go all the way at first, so I wrote a function that adds nodes and edges to the Networkx graph recursively up to a certain depth. The results of the depth = 5 graph is below. In matplotlib this is interactive, so you can scroll around and zoom in to view things more clearly. However, it's visualization features are a bit lacking, and even visualizing this was very slow, which should have been a bad sign for the rest of this project.
 
-![doggo](/home/generic/Pictures/doggo.png)
+![Dog-graph-image](/images/doggo.png)
 
 First, I have a basic driver class that manages some of the graph edge addition and visualization parts. See code below.
 
