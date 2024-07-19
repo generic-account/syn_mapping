@@ -124,11 +124,11 @@ Well what are the statistics that we can extract?
 
 - **Degree** is the the number of edges, or synonym connections, a single node (word) has. We know that "take" has one of the highest degrees at __, indicating that it is a very general word with multiple meanings in multiple contexts. For example, the word can be used to obtain a physical object (e.g, "I took a slice of pizza") but can also be used in the context of filming with multiple "takes" needed to film a scene.
 
-- **Average Degree** is the mean number of synonym connections a word has. Generally, a higher value of this statistic shows a more interconnected network. The graph has an average degree of __.
+- **Average Degree** is the mean number of synonym connections a word has. Generally, a higher value of this statistic shows a more interconnected network. The graph has an average degree of 1.771.
 <!--
 When possible put up a histogram showing the number of synonyms each word has to interpret the mean in context of the graph
 -->
-
+![Average Degree Graph](/images/degree-distribution.png)
 - **Modularity** is the measure of the strength of groups, or modules, in the graph. Measured using the [Louvain Algorithm](https://en.wikipedia.org/wiki/Louvain_method), a higher modularity indicates a graph with large distinct clusters, likely being words with similar semantics. We see that the modularity of the English language is __.
 
 - **Diameter** is the maximum possible distance between two nodes in a graph. Even in a graph with 400,000 words, it is surprising to see that the largest possible path necessary to connect two points is __.
