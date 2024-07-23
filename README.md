@@ -144,4 +144,10 @@ The distribution above shows that only a couple of values have a high eigenvecto
 
 - **Betweenness Centrality** is similar to Eigenvector Centrality in that a node with more connections will have a higher value. However, this specifically checks how often the node falls in the path between two other nodes. In other words, a node with high betweenness centrality acts like a bridge between semantic clusters in the graph. That's why many words have to go through it in order to form a path with a node outside their own cluster. 
 
+## Next Steps
 
+- Look at other languages
+- Color by sentiment
+- Try more clustering algorithms and algorithms settings
+- Look at potential applications in applied NLP
+- Compare to embedding-based graphs
