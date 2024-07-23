@@ -122,14 +122,26 @@ One can extract multiple statistics from a network to better understand it. Our 
 
 Well what are the statistics that we can extract?
 
-- **Degree** is the the number of edges, or synonym connections, a single node (word) has. We know that "take" has one of the highest degrees at __, indicating that it is a very general word with multiple meanings in multiple contexts. For example, the word can be used to obtain a physical object (e.g, "I took a slice of pizza") but can also be used in the context of filming with multiple "takes" needed to film a scene.
+- **Degree** is the the number of edges, or synonym connections, a single node (word) has. We know that "take" has one of the highest degrees at 272, indicating that it is a very general word with multiple meanings in multiple contexts. For example, the word can be used to obtain a physical object (e.g, "I took a slice of pizza") but can also be used in the context of filming with multiple "takes" needed to film a scene.
 
 - **Average Degree** is the mean number of synonym connections a word has. Generally, a higher value of this statistic shows a more interconnected network. The graph has an average degree of 1.771.
 <!--
 When possible put up a histogram showing the number of synonyms each word has to interpret the mean in context of the graph
 -->
+
 ![Average Degree Graph](/images/degree-distribution.png)
+
 - **Modularity** is the measure of the strength of groups, or modules, in the graph. Measured using the [Louvain Algorithm](https://en.wikipedia.org/wiki/Louvain_method), a higher modularity indicates a graph with large distinct clusters, likely being words with similar semantics. We see that the modularity of the English language is __.
 
 - **Diameter** is the maximum possible distance between two nodes in a graph. Even in a graph with 400,000 words, it is surprising to see that the largest possible path necessary to connect two points is __.
 <!--If we can find the two words it would be pretty cool-->
+
+- **Eigenvector Centrality** essentially measures how influential a node is in a graph. A high value of this statistic would occur for a node that has many edges connected to it and is neighbors with other influential points. 
+
+![Eigenvector Centrality Distribtuion](/images/eigenvector-centralities.png)
+
+The distribution above shows that only a couple of values have a high eigenvector centrality. Upon inspecting the 'Data Laboratory' feature in Gephi, we come to find out that "get" has the highest value at 1.0.
+
+- **Betweenness Centrality** is similar to Eigenvector Centrality in that a node with more connections will have a higher value. However, this specifically checks how often the node falls in the path between two other nodes. In other words, a node with high betweenness centrality acts like a bridge between semantic clusters in the graph. That's why many words have to go through it in order to form a path with a node outside their own cluster. 
+
+
