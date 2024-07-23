@@ -151,3 +151,4 @@ The distribution above shows that only a couple of values have a high eigenvecto
 - Try more clustering algorithms and algorithms settings
 - Look at potential applications in applied NLP
 - Compare to embedding-based graphs
+- Interactive graphing
