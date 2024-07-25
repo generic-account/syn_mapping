@@ -125,13 +125,14 @@ Well what are the statistics that we can extract?
 - **Degree** is the the number of edges, or synonym connections, a single node (word) has. We know that "take" has one of the highest degrees at 272, indicating that it is a very general word with multiple meanings in multiple contexts. For example, the word can be used to obtain a physical object (e.g, "I took a slice of pizza") but can also be used in the context of filming with multiple "takes" needed to film a scene.
 
 - **Average Degree** is the mean number of synonym connections a word has. Generally, a higher value of this statistic shows a more interconnected network. The graph has an average degree of 1.771.
-<!--
-When possible put up a histogram showing the number of synonyms each word has to interpret the mean in context of the graph
--->
 
 ![Average Degree Graph](/images/degree-distribution.png)
 
-- **Modularity** is the measure of the strength of groups, or modules, in the graph. Measured using the [Louvain Algorithm](https://en.wikipedia.org/wiki/Louvain_method), a higher modularity indicates a graph with large distinct clusters, likely being words with similar semantics. We see that the modularity of the English language is __.
+We can clearly see that the degree distribution of all the nodes in the graph is right-skewed. With a peak of 260,000 words without any synonyms, we find that a lot of the nodes in the network are _isolated vertices_. Despite many words on the right having a high degree, their pull on the mean of the distribution is too weak compared to the large number of words with very few synonyms.
+
+- **Modularity** is the measure of the strength of groups, or modules, in the graph. Measured using the [Louvain Algorithm](https://en.wikipedia.org/wiki/Louvain_method), a higher modularity indicates a graph with large distinct clusters, likely being words with similar semantics.
+
+We see that the modularity of the English language is 0.876, which is a considerably high value. Our data is very modular, splitting into neat chunks that are tightly interconnected amongst themselves. 
 
 - **Diameter** is the maximum possible distance between two nodes in a graph. Even in a graph with 400,000 words, it is surprising to see that the largest possible path necessary to connect two points is __.
 <!--If we can find the two words it would be pretty cool-->
@@ -140,15 +141,23 @@ When possible put up a histogram showing the number of synonyms each word has to
 
 ![Eigenvector Centrality Distribtuion](/images/eigenvector-centralities.png)
 
-The distribution above shows that only a couple of values have a high eigenvector centrality. Upon inspecting the 'Data Laboratory' feature in Gephi, we come to find out that "get" has the highest value at 1.0.
+The distribution above shows that only a couple of values have a high eigenvector centrality. Upon inspecting the 'Data Laboratory' feature in Gephi, we come to find out that "get" has the highest value at 1.0. This does not mean that "get" is connected to every single node in the graph. Rather, it is the most influential point in the graph, and the rest of the points are _standardized_ between nodes with no influence and the "get" node. This is similar to how z-scores are calculated in statistics, where data points are 'normalized' to allow comparison between graphs.  
 
-- **Betweenness Centrality** is similar to Eigenvector Centrality in that a node with more connections will have a higher value. However, this specifically checks how often the node falls in the path between two other nodes. In other words, a node with high betweenness centrality acts like a bridge between semantic clusters in the graph. That's why many words have to go through it in order to form a path with a node outside their own cluster. 
+- **Betweenness Centrality** is similar to Eigenvector Centrality in that a node with more connections will have a higher value. However, this specifically checks how often the node falls in the path between two other nodes. In other words, a node with high betweenness centrality acts like a bridge between semantic clusters in the graph, so that nodes in one cluster need to 'cross' the node to form a path with nodes of another cluster.
+
+
+
+## Conlcusion
+The English language is definitely complicated. Even with more than 400,000 words, however, we can learn some important insights from this synonym graph. 
+
+First, the English language
 
 ## Next Steps
+We have major plans for digging deeper into the wonderful intersection of graph theory and language. There are still many aspects of this subject that we still have not explored, including...
 
-- Look at other languages
-- Color by sentiment
-- Try more clustering algorithms and algorithms settings
-- Look at potential applications in applied NLP
-- Compare to embedding-based graphs
+- Looking at other languages
+- Coloring by sentiment
+- Trying more clustering algorithms and algorithms settings: By seeing the different clusters in the graph, we will understand why certain nodes have a high betweenness centrality.
+- Looking at potential applications in applied NLP
+- Comparing to embedding-based graphs
 - Interactive graphing
