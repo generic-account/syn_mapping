@@ -1,4 +1,4 @@
-# Graphing the English Language
+# Graphing the English Language: A Network Theory Approach to Synonym Mapping
 
 A project analyzing English with synonyms, NLP, and network theory by Akarsh Duddu and Gordon Lichtstein.
 
