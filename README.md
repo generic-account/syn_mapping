@@ -1,4 +1,4 @@
-# Graphing the English Language
+# Graphing English Language Synonyms
 
 A project analyzing English with synonyms, NLP, and network theory by Akarsh Duddu and Gordon Lichtstein.
 
