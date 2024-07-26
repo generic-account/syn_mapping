@@ -122,37 +122,83 @@ One can extract multiple statistics from a network to better understand it. Our 
 
 Well what are the statistics that we can extract?
 
-- **Degree** is the the number of edges, or synonym connections, a single node (word) has. We know that "take" has one of the highest degrees at 272, indicating that it is a very general word with multiple meanings in multiple contexts. For example, the word can be used to obtain a physical object (e.g, "I took a slice of pizza") but can also be used in the context of filming with multiple "takes" needed to film a scene.
+### Degree 
 
-- **Average Degree** is the mean number of synonym connections a word has. Generally, a higher value of this statistic shows a more interconnected network. The graph has an average degree of 1.771.
+The degree of the is the the number of edges, or synonym connections, a single node (word) has. We know that "take" has one of the highest degrees at 272, indicating that it is a very general word with multiple meanings in multiple contexts. For example, the word can be used to obtain a physical object (e.g, "I took a slice of pizza") but can also be used in the context of filming with multiple "takes" needed to film a scene.
+
+### Average Degree
+
+The average degree is the mean number of synonym connections a word has. Generally, a higher value of this statistic shows a more interconnected network. The graph has an average degree of 1.771.
 
 ![Average Degree Graph](/images/degree-distribution.png)
 
 We can clearly see that the degree distribution of all the nodes in the graph is right-skewed. With a peak of 260,000 words without any synonyms, we find that a lot of the nodes in the network are _isolated vertices_. Despite many words on the right having a high degree, their pull on the mean of the distribution is too weak compared to the large number of words with very few synonyms.
 
-- **Modularity** is the measure of the strength of groups, or modules, in the graph. Measured using the [Louvain Algorithm](https://en.wikipedia.org/wiki/Louvain_method), a higher modularity indicates a graph with large distinct clusters, likely being words with similar semantics.
+### Diameter
 
-We see that the modularity of the English language is 0.876, which is a considerably high value. Our data is very modular, splitting into neat chunks that are tightly interconnected amongst themselves. 
+The diameter is the maximum possible distance between two nodes in a graph. Even in a graph with 400,000 words, it is surprising to see that the largest possible path necessary to connect two points is only 22. This tells us that the English language is much more connected in meaning than is expected.
 
-- **Diameter** is the maximum possible distance between two nodes in a graph. Even in a graph with 400,000 words, it is surprising to see that the largest possible path necessary to connect two points is __.
-<!--If we can find the two words it would be pretty cool-->
+### Modularity
 
-- **Eigenvector Centrality** essentially measures how influential a node is in a graph. A high value of this statistic would occur for a node that has many edges connected to it and is neighbors with other influential points. 
+Modularity is the measure of the strength of groups, or communities, in the graph. Measured using the [Louvain Algorithm](https://en.wikipedia.org/wiki/Louvain_method), a higher modularity indicates a graph with large distinct clusters, likely being words with similar semantics.
+
+We see that the modularity of the English language is 0.876, which is a considerably high value. Our data is very modular, splitting into neat chunks that are tightly interconnected amongst themselves. We can expect this, because a _word's close synonyms are synonyms with each other_.
+
+It would be interesting to see what these communities look like. Directly from Gephi, we get a graph of different _modularity classes_: groups of nodes determined by the algorithm to be communities in the graph. Below is the size distribution of the different communities in the graph:
+
+![Communities Size Distribution](/images/communities-size-distribution.png)
+
+The x-axis represent each modularity class (i.e., Modularity Class 0, Modularity Class 1, etc.). We can get some interesting insights by seeing which classes are the largest, so we wrote a quick Python script to find the five largest ones:
+
+```python
+from collections import Counter
+import pandas as pd
+
+syn_df = pd.read_csv("top_400k.csv")
+NUM_CLASSES = 5
+
+top_five = Counter(syn_df["modularity_class"]).most_common(NUM_CLASSES)
+
+for mc, count in top_five:
+    print(f"Modularity Class {mc}, Count: {count}")
+```
+
+Running this script, we get the following output:
+```
+Modularity Class 225099, Count: 2285
+Modularity Class 99498, Count: 2214
+Modularity Class 288827, Count: 2121
+Modularity Class 97029, Count: 1979
+Modularity Class 74076, Count: 1927
+```
+
+The `collections.Counter` class takes in an iterable of elements and counts them. Calling the `most_common` method with the argument of 5 gives us the top 5 highest counts. Each modularity class in this list has more than 1500+ nodes. 
+
+### Average Clustering Coefficient
+
+The average clustering coefficient is the average of each node's local clustering coefficient. A local clustering coefficient measures the likelihood of a node's neighbors to be neighbors themselves (forming a triangle.) The graph's clustering coefficient is 0.654, which means on average, 65.4% of connections between a node's neighbors are already present. This is a high value for a network, meaning the graph has many clusters and connections within clusters are very dense. 
+
+
+### Eigenvector Centrality
+
+The eigenvector centrality essentially measures how influential a node is in a graph. A high value of this statistic would occur for a node that has many edges connected to it and is neighbors with other influential points. 
 
 ![Eigenvector Centrality Distribtuion](/images/eigenvector-centralities.png)
 
 The distribution above shows that only a couple of values have a high eigenvector centrality. Upon inspecting the 'Data Laboratory' feature in Gephi, we come to find out that "get" has the highest value at 1.0. This does not mean that "get" is connected to every single node in the graph. Rather, it is the most influential point in the graph, and the rest of the points are _standardized_ between nodes with no influence and the "get" node. This is similar to how z-scores are calculated in statistics, where data points are 'normalized' to allow comparison between graphs.  
 
-- **Betweenness Centrality** is similar to Eigenvector Centrality in that a node with more connections will have a higher value. However, this specifically checks how often the node falls in the path between two other nodes. In other words, a node with high betweenness centrality acts like a bridge between semantic clusters in the graph, so that nodes in one cluster need to 'cross' the node to form a path with nodes of another cluster.
+### Betweenness Centrality
 
-
+The betweenness centrality is similar to Eigenvector Centrality in that a node with more connections will have a higher value. However, this specifically checks how often the node falls in the path between two other nodes. In other words, a node with high betweenness centrality acts like a bridge between semantic clusters in the graph, so that nodes in one cluster need to 'cross' the node to form a path with nodes of another cluster.
 
 ## Conlcusion
+
 The English language is definitely complicated. Even with more than 400,000 words, however, we can learn some important insights from this synonym graph. 
 
 First, the English language
 
 ## Next Steps
+
 We have major plans for digging deeper into the wonderful intersection of graph theory and language. There are still many aspects of this subject that we still have not explored, including...
 
 - Looking at other languages
