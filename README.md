@@ -185,17 +185,21 @@ The eigenvector centrality essentially measures how influential a node is in a g
 
 ![Eigenvector Centrality Distribtuion](/images/eigenvector-centralities.png)
 
-The distribution above shows that only a couple of values have a high eigenvector centrality. Upon inspecting the 'Data Laboratory' feature in Gephi, we come to find out that "get" has the highest value at 1.0. This does not mean that "get" is connected to every single node in the graph. Rather, it is the most influential point in the graph, and the rest of the points are _standardized_ between nodes with no influence and the "get" node. This is similar to how z-scores are calculated in statistics, where data points are 'normalized' to allow comparison between graphs.  
+The distribution above shows that only a couple of values have a high eigenvector centrality. Upon inspecting the 'Data Laboratory' feature in Gephi, we come to find out that "get" has the highest value at 1.0. This does not mean that "get" is connected to every single node in the graph. Rather, it is the most influential point in the graph, and the rest of the points are _standardized_ between nodes with no influence and the "get" node. This is similar to how z-scores are calculated in statistics, where data points are 'normalized' to allow comparison between graphs.
 
 ### Betweenness Centrality
 
-The betweenness centrality is similar to Eigenvector Centrality in that a node with more connections will have a higher value. However, this specifically checks how often the node falls in the path between two other nodes. In other words, a node with high betweenness centrality acts like a bridge between semantic clusters in the graph, so that nodes in one cluster need to 'cross' the node to form a path with nodes of another cluster.
+The betweenness centrality is similar to Eigenvector Centrality in that a node with more connections will have a higher value. However, this specifically checks how often the node falls in the path between two other nodes. In other words, a node with high betweenness centrality acts like a bridge between semantic clusters in the graph, so that nodes in one cluster need to 'cross' the node to form a path with nodes of another cluster. High betweenness centrality means that node is connected to many other nodes, and serves as a bridge for many paths as well - like crossroads. The highest betweenness centrality (3,663,680) is for the word "take".
 
 ## Conlcusion
 
 The English language is definitely complicated. Even with more than 400,000 words, however, we can learn some important insights from this synonym graph. 
 
-First, the English language
+First, the English language is suprisingly connected. We might ordinarily only be able to think of a few synonyms for each word, but actually there are many. The large diameter of the graph means that semantic drift is somewhat signficant. This is reinforced by the modularlity classes being somewhat semantically meaningless - "Byzantine" and "meatiest" are in the same class, meaning that there are somehow denser connections between these two nodes than between nodes in other modularity classes.
+
+It is also interesting to note that the centrality algorithms often overlapped, so despite calculating "important" nodes totally differently, they ended up agreeing on what the few most important nodes were. These nodes include "get", "take", "make", and "pass". These are all very common words in English, and it's very interesting that these algorithms identified them as important, despite having no information about the frequency of words in text.
+
+There is surely a lot more to learn about the English language through this data. We present some next steps and additional areas of investiagtion that could reveal deeper insights. Overall though, we believe this project has been very sucessful. It has revealed the beauty and connections with language that we otherwise might never have seen. Additionally, the project presented a great opportunity to explore and deepen our knowledge of graph theory and its (im)practical applications. It was honestly pretty fun.
 
 ## Next Steps
 
@@ -206,4 +210,4 @@ We have major plans for digging deeper into the wonderful intersection of graph 
 - Trying more clustering algorithms and algorithms settings: By seeing the different clusters in the graph, we will understand why certain nodes have a high betweenness centrality.
 - Looking at potential applications in applied NLP
 - Comparing to embedding-based graphs
-- Interactive graphing
+- Interactive graphing in the website
