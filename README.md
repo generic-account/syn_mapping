@@ -116,7 +116,7 @@ While this was the end of my thoughts about multiprocessing in Python, it was no
 
 The following graph has been laid out with the OpenOrd algorithm, an efficient algorithm for making visually pleasing graphs that works particularly well with very large graphs. 
 
-![Final Graph](/images/final-graph.png)
+<img src="images/final-graph.png" alt="final graph" width="500"  />
 
 ## Network Theory with Gephi
 
