@@ -114,7 +114,7 @@ While this was the end of my thoughts about multiprocessing in Python, it was no
 
 ## Visualization with Gephi
 
-
+The following graph has been layed out with the OpenOrd algorithm, an efficient algorithm for making visually pleasing graphs that works particularly well with very large graphs. 
 
 ## Network Theory with Gephi
 
