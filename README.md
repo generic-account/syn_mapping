@@ -116,6 +116,8 @@ While this was the end of my thoughts about multiprocessing in Python, it was no
 
 The following graph has been laid out with the OpenOrd algorithm, an efficient algorithm for making visually pleasing graphs that works particularly well with very large graphs. 
 
+![Final Graph](/images/final-graph.png)
+
 ## Network Theory with Gephi
 
 One can extract multiple statistics from a network to better understand it. Our aim with the synonym graph is to map and understand insights from it.
