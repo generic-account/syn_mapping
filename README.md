@@ -6,19 +6,19 @@ A project analyzing English with synonyms, NLP, and network theory by Akarsh Dud
 
 What does a language look like? And what does that question even mean?
 
-Well I had this very thought a few days ago, and while ordinarily I might dismiss it, I decided to pursue my curiosity. This led me down a path through natural language processing, massive datasets, high performance computing, network theory, and graphical visualization tools.
+Well I had this very thought a few days ago, and while ordinarily I might dismiss it, I decided to pursue my curiosity. This led me down a path through natural language processing, massive datasets, high-performance computing, network theory, and graphical visualization tools.
 
-The core of this project is to map the semantic content of words and language - what it means. But the meaning of words don't truly lie within them or the letters that make it up, but instead by the words that are similar to them in meaning, appear in similar contexts, and have similar relationships to other words (e.g. two words sharing synonyms, even if they aren't synonyms themselves).
+The core of this project is to map the semantic content of words and language - what it means. But the meaning of words don't truly lie within them or the letters that make them up, but instead by the words that are similar to them in meaning, appear in similar contexts, and have similar relationships to other words (e.g. two words sharing synonyms, even if they aren't synonyms themselves).
 
 ## Libraries and Software Used
 
 This project is primarily done in Python, and I will be using the following libraries throughout this project: NLTK, Networkx, and Matplotlib. Although Python isn't the fastest language (and we will run into some difficulties with it later on), it is sufficient for much of the project.
 
-NLTK, or the natural language toolkit, provides numerous NLP (natural language processing) tools, but we will primarily be using its implementation of Wordnet (https://wordnet.princeton.edu/), which is an English lexical database of "sets of cognitive synonyms (synets), each representing a distinct concept."
+NLTK, or the natural language toolkit, provides numerous NLP (natural language processing) tools, but we will primarily be using its implementation of Wordnet (https://wordnet.princeton.edu/), which is an English lexical database of "sets of cognitive synonyms (synsets), each representing a distinct concept."
 
-Networkx is a graph library for Python supporting the "creation, manipulation, and study of the structure, dynamics, and functions of complex networks". I largely use it to easily create and export graphs with Python, as it is too slow for many more computationally intensive tasks.
+`Networkx` is a graph library for Python supporting the "creation, manipulation, and study of the structure, dynamics, and functions of complex networks". I largely use it to easily create and export graphs with Python, as it is too slow for many more computationally intensive tasks.
 
-Matplotlib is a library that's incredibly useful at making statistical visualizations in Python, including histograms, graphs (like the ones I make here), scatter plots, and multivariate visualizations. I use ti for the first parts of this project, but it scales poorly as my dataset size increases.
+Matplotlib is a library that's incredibly useful at making statistical visualizations in Python, including histograms, graphs (like the ones I make here), scatter plots, and multivariate visualizations. I used it for the first parts of this project, but it scales poorly as my dataset size increases.
 
 Other than the Python libraries, I will also be using Gephi which is a network visualization and science tool. It will be the primary tool I use after generating my datasets in Python, as it's very fast and easily supports multi-processing in some scenarios.
 
@@ -26,7 +26,7 @@ Other than the Python libraries, I will also be using Gephi which is a network v
 
 My initial thought was to do this recursively - take some word and add all its synonyms. Then take all those synonyms and add their synonyms. Then take those synonyms of synonyms and add their synonyms, and so on until we have added every word and its synonyms. So I implemented this. And what better word to use than "dog" (don't say "cat")?
 
-Of course I couldn't go all the way at first, so I wrote a function that adds nodes and edges to the Networkx graph recursively up to a certain depth. The results of the depth = 5 graph is below. In matplotlib this is interactive, so you can scroll around and zoom in to view things more clearly. However, it's visualization features are a bit lacking, and even visualizing this was very slow, which should have been a bad sign for the rest of this project.
+Of course, I couldn't go all the way at first, so I wrote a function that adds nodes and edges to the Networkx graph recursively up to a certain depth. The results of the depth = 5 graph is below. In `matplotlib` this is interactive, so you can scroll around and zoom in to view things more clearly. However, its visualization features are a bit lacking, and even visualizing this was very slow, which should have been a bad sign for the rest of this project.
 
 ![Dog-graph-image](/images/syn_map_dog.png)
 
@@ -45,7 +45,7 @@ class Graph:
         plt.show() 
 ```
 
-I have a function that takes a word and gets all of its synonyms. This works by getting the synets of a word (a list of lists of connected synonyms), and flattens it into one list of synonyms. See function below.
+I have a function that takes a word and gets all of its synonyms. This works by getting the synsets of a word (a list of lists of connected synonyms), and flattening it into one list of synonyms. See function below.
 
 ```python
 def get_syns(word):
@@ -73,11 +73,11 @@ This works, but there are a few problems with this approach. One is that if two 
 
 ## Sequential Approach (and Scaling)
 
-My next approach was a sequential one, where I would go through the words in some word list, and add each of their synonyms to the graph. Much of the code was very similar, except for the bit that interacted with the word list and the way I load the graph.
+My next approach was a sequential one, where I would go through the words in some word list, and add each of their synonyms to the graph. Much of the code was very similar, except for the bit that interacted with the word list and the way I loaded the graph.
 
-I found two word lists that seemed good to test on. One was the top 10,000 most common English words, and the other was about 400,000 words. I figured the 10k word list would be a good test, and I could always increase the number of words.
+I found two wordlists that seemed good to test on. One was the top 10,000 most common English words, and the other was about 400,000 words. I figured the 10k word list would be a good test, and I could always increase the number of words.
 
-Because of the sheer volume of words, I thought that adding synonyms one by one as I did in the add_syns function above would be too slow. As such, I took advantage of another feature of the networkx library, which is loading from an adjacency dictionary. This is a dictionary where the keys are nodes, and the values are tuples of nodes that are connected to the key node. I made a function to build this adjacency dictionary (see below).
+Because of the sheer volume of words, I thought that adding synonyms one by one as I did in the add_syns function above would be too slow. As such, I took advantage of another feature of the `networkx` library, which is loading from an adjacency dictionary. This is a dictionary where the keys are nodes, and the values are tuples of nodes that are connected to the key node. I made a function to build this adjacency dictionary (see below).
 
 ```python
 def gen_adj_dict(words):
@@ -87,7 +87,7 @@ def gen_adj_dict(words):
     return d
 ```
 
-Other than that, the code was mostly the same. I opened the text file of the word list (one word per line), and went through it line by line, adding each word to a list of words. Then, I generate the adjacency dictionary with this list of words, and generate a graph based on it. Then, as networkx's draw_network function was getting too slow, I saved the graph as a .gml file (a standard graph file format) for viewing and processing with other programs. See the code below.
+Other than that, the code was mostly the same. I opened the text file of the word list (one word per line), and went through it line by line, adding each word to a list of words. Then, I generate the adjacency dictionary with this list of words, and generate a graph based on it. Then, as `networkx's` draw_network function was getting too slow, I saved the graph as a .gml file (a standard graph file format) for viewing and processing with other programs. See the code below.
 
 ```python
 with open("400k_words_alpha.txt", "r") as f:
@@ -106,15 +106,15 @@ print("graph saved")
 
 ## Multiprocessing
 
-I initially thought that the bottleneck in my code was the generation of the adjacency dictionary, and that I would have to use the Python multiprocess or multiprocessing module. This was before I switched away from using a Python visualization via draw_networkx. However, I did a bit of research and using multiprocessing seemed like a bit of a pain, so I decided to reevaluate whether or not I actually needed it. Instead of assuming, I first decided to do a bit of testing to see where the bottleneck actually was. It was a good think I did.
+I initially thought that the bottleneck in my code was the generation of the adjacency dictionary, and that I would have to use the Python multiprocess or multiprocessing module. This was before I switched away from using a Python visualization via draw_networkx. However, I did a bit of research and using multiprocessing seemed like a bit of a pain, so I decided to reevaluate whether or not I actually needed it. Instead of assuming, I first decided to do a bit of testing to see where the bottleneck actually was. It was a good thing I did.
 
-After adding a few simple print statements after each line of meaningful code, i determined that adding the 400k words and their synonyms to the graph was not actually very slow, and it only took a few seconds. Instead, the bottleneck was in the visualization. This led me to saving the graph as a .gml so I could visualize it other software, such as Gephi.
+After adding a few simple print statements after each line of meaningful code, I determined that adding the 400k words and their synonyms to the graph was not actually very slow, and it only took a few seconds. Instead, the bottleneck was in the visualization. This led me to saving the graph as a .gml so I could visualize it other software, such as Gephi.
 
 While this was the end of my thoughts about multiprocessing in Python, it was not actually the last time it came up in this project. Gephi uses some algorithms that can take advantage of multiple cores, and this was key for me being able to process the 400k document in any reasonable amount of time.
 
 ## Visualization with Gephi
 
-The following graph has been layed out with the OpenOrd algorithm, an efficient algorithm for making visually pleasing graphs that works particularly well with very large graphs. 
+The following graph has been laid out with the OpenOrd algorithm, an efficient algorithm for making visually pleasing graphs that works particularly well with very large graphs. 
 
 ## Network Theory with Gephi
 
@@ -148,7 +148,7 @@ It would be interesting to see what these communities look like. Directly from G
 
 ![Communities Size Distribution](/images/communities-size-distribution.png)
 
-The x-axis represent each modularity class (i.e., Modularity Class 0, Modularity Class 1, etc.). We can get some interesting insights by seeing which classes are the largest, so we wrote a quick Python script to find the five largest ones:
+The x-axis represents each modularity class (i.e., Modularity Class 0, Modularity Class 1, etc.). We can get some interesting insights by seeing which classes are the largest, so we wrote a quick Python script to find the five largest ones:
 
 ```python
 from collections import Counter
@@ -181,7 +181,7 @@ The average clustering coefficient is the average of each node's local clusterin
 
 ### Eigenvector Centrality
 
-The eigenvector centrality essentially measures how influential a node is in a graph. A high value of this statistic would occur for a node that has many edges connected to it and is neighbors with other influential points. 
+The eigenvector centrality measures how influential a node is in a graph. A high value of this statistic would occur for a node that has many edges connected to it and is neighbors with other influential points. 
 
 ![Eigenvector Centrality Distribtuion](/images/eigenvector-centralities.png)
 
@@ -195,11 +195,11 @@ The betweenness centrality is similar to Eigenvector Centrality in that a node w
 
 The English language is definitely complicated. Even with more than 400,000 words, however, we can learn some important insights from this synonym graph. 
 
-First, the English language is suprisingly connected. We might ordinarily only be able to think of a few synonyms for each word, but actually there are many. The large diameter of the graph means that semantic drift is somewhat signficant. This is reinforced by the modularlity classes being somewhat semantically meaningless - "Byzantine" and "meatiest" are in the same class, meaning that there are somehow denser connections between these two nodes than between nodes in other modularity classes.
+First, the English language is surprisingly connected. We might ordinarily only be able to think of a few synonyms for each word, but actually there are many. The large diameter of the graph means that semantic drift is somewhat significant. This is reinforced by the modularity classes being somewhat semantically meaningless - "Byzantine" and "meatiest" are in the same class, meaning that there are somehow denser connections between these two nodes than between nodes in other modularity classes.
 
 It is also interesting to note that the centrality algorithms often overlapped, so despite calculating "important" nodes totally differently, they ended up agreeing on what the few most important nodes were. These nodes include "get", "take", "make", and "pass". These are all very common words in English, and it's very interesting that these algorithms identified them as important, despite having no information about the frequency of words in text.
 
-There is surely a lot more to learn about the English language through this data. We present some next steps and additional areas of investiagtion that could reveal deeper insights. Overall though, we believe this project has been very sucessful. It has revealed the beauty and connections with language that we otherwise might never have seen. Additionally, the project presented a great opportunity to explore and deepen our knowledge of graph theory and its (im)practical applications. It was honestly pretty fun.
+There is surely a lot more to learn about the English language through this data. We present some next steps and additional areas of investigation that could reveal deeper insights. Overall though, we believe this project has been very successful. It has revealed the beauty and connections with language that we otherwise might never have seen. Additionally, the project presented a great opportunity to explore and deepen our knowledge of graph theory and its (im)practical applications. It was honestly pretty fun.
 
 ## Next Steps
 
